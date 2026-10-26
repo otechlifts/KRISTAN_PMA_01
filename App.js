@@ -1,10 +1,25 @@
+
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Button,
+  Modal,
+  Pressable,
+  Alert,
+  FlatList,
+  ScrollView
+} from 'react-native';
+import Item from './src/components/Item';
+
 
 export default function App() {
   const [item, setItem] = useState("");
   const [task, setTask] = useState([])
+  const [modalVisible, setModalVisible] = useState(false);
   function handleAddItem() {
     console.log("Item", item);
     setTask([...task, item]);
@@ -23,14 +38,24 @@ export default function App() {
         <StatusBar style="auto" />
       </View>
       <View style={styles.udalosti}>
-        {task.map((i)=>{
-          <Text>{i}</Text>;
-        })}
+
+        <FlatList
+          style={{flex: 1}}
+          data={task}
+          renderItem={({item}) => {
+      return <Item title={item}/>;
+    }}
+    keyExtractor={(item, index) => index.toString()}
+        />
+
+      <Button
+  title="Otvor Modal"
+  onPress={() => setModalVisible(true)}
+/>
       </View>
       </View>
     );
   }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -44,5 +69,37 @@ const styles = StyleSheet.create({
   },
   udalosti: {
     flex: 5,
-  }
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+  },
+  centeredView: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "#000000",
+},
+modalView: {
+  margin: 20,
+  backgroundColor: "white",
+  padding: 35,
+  alignItems: "center",
+},
+modalText: {
+  marginBottom: 15,
+  textAlign: "center",
+  fontSize: 20,
+},
+button: {
+  borderRadius: 20,
+  padding: 10,
+},
+buttonClose: {
+  backgroundColor: "#2196F3",
+},
+textStyle: {
+  color: "white",
+  fontWeight: "bold",
+  textAlign: "center",
+},
 });
