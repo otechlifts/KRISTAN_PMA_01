@@ -1,18 +1,26 @@
-import {Text, StyleSheet, Pressable} from "react-native";
-export default function Item ({title}) {
-    return (
-    <Pressable>
-    <Text style = {styles.taskItem}>{title}</Text>
-    </Pressable>
-    );
-}
+import { Text, StyleSheet, Pressable } from "react-native";
+import { useState } from "react";
 
+export default function Item({ title, onDelete }) {
+  const [hotovo, setHotovo] = useState(false);
+  return (
+    <Pressable
+      onPress={() => setHotovo(!hotovo)}
+      onLongPress={onDelete}>
+      <Text style={[
+        styles.taskItem,
+        { backgroundColor: hotovo ? "green" : "#e96500" }
+      ]}>
+        {title}
+      </Text>
+    </Pressable>
+  );
+}
 const styles = StyleSheet.create({
-    taskItem: {
-        backgroundColor: "#e96500",
-        margin: 5,
-        borderRadius: 8,
-        padding: 5,
-        fontSize: 16,
-    },
+  taskItem: {
+    margin: 5,
+    borderRadius: 8,
+    padding: 5,
+    fontSize: 16,
+  },
 });

@@ -20,11 +20,19 @@ export default function App() {
   const [item, setItem] = useState("");
   const [task, setTask] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
-  function handleAddItem() {
-    console.log("Item", item);
-    setTask([...task, item]);
-    console.log(task);
-  }
+  
+function handleAddItem() {
+  var id = Math.random().toString(16).slice(2);
+
+  setTask([...task, { id: id, title: item }]);
+  setItem("");
+}
+
+function handleDeleteItem(id) {
+  setTask(task.filter((item) => item.id !== id));
+}
+
+
   function handleInputText(text) {
     setItem(text)
   }
@@ -39,14 +47,20 @@ export default function App() {
       </View>
       <View style={styles.udalosti}>
 
-        <FlatList
-          style={{flex: 1}}
-          data={task}
-          renderItem={({item}) => {
-      return <Item title={item}/>;
-    }}
-    keyExtractor={(item, index) => index.toString()}
-        />
+        
+      <FlatList
+  style={{ flex: 1 }}
+  data={task}
+  renderItem={({ item }) => {
+    return (
+      <Item
+        title={item.title}
+        onDelete={() => handleDeleteItem(item.id)}
+      />
+    );
+  }}
+  keyExtractor={(item) => item.id}
+/>
 
       <Button
   title="Otvor Modal"
